@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function Home() {
@@ -25,6 +26,12 @@ export default async function Home() {
       </h1>
       <p className="text-sm text-neutral-400">Tenant slug: {tenant.slug}</p>
       <p className="text-sm text-neutral-400">Domain: {tenant.domain}</p>
+      <Link
+        href="/locations"
+        className="mt-4 text-sm text-neutral-300 underline underline-offset-4 hover:text-white"
+      >
+        View filming locations →
+      </Link>
     </main>
   )
 }
