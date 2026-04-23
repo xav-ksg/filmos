@@ -27,7 +27,8 @@ export default async function LocationDetailPage({
 
   if (!location) notFound()
 
-  const paragraphs = (location.body ?? '').split(/\n{2,}/).filter(Boolean)
+  const body: string = location.body ?? ''
+  const paragraphs: string[] = body.split(/\n{2,}/).filter(Boolean)
 
   return (
     <main className="min-h-screen bg-neutral-950 px-6 py-12 text-white">
