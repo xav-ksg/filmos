@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import LocationsMap from '@/components/LocationsMap'
 
 const categoryStyles: Record<string, string> = {
   natural: 'bg-emerald-900/60 text-emerald-200',
@@ -12,9 +13,11 @@ export default async function LocationsPage() {
 
   const { data: locations } = await supabase
     .from('locations')
-    .select('slug, name, category, summary')
+    .select('slug, name, category, summary, latitude, longitude')
     .eq('published', true)
     .order('name')
+
+  const rows = locations ?? []
 
   return (
     <main className="min-h-screen bg-neutral-950 px-6 py-16 text-white">
@@ -28,8 +31,20 @@ export default async function LocationsPage() {
           </p>
         </header>
 
+        <div className="mb-12">
+          <LocationsMap
+            locations={rows.map((l) => ({
+              slug: l.slug,
+              name: l.name,
+              category: l.category,
+              latitude: l.latitude,
+              longitude: l.longitude,
+            }))}
+          />
+        </div>
+
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {(locations ?? []).map((loc) => (
+          {rows.map((loc) => (
             <Link
               key={loc.slug}
               href={`/locations/${loc.slug}`}
