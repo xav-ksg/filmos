@@ -1,12 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import LocationsMap from '@/components/LocationsMap'
-
-const categoryStyles: Record<string, string> = {
-  natural: 'bg-emerald-900/60 text-emerald-200',
-  pastoral: 'bg-amber-900/60 text-amber-200',
-  built: 'bg-slate-800/60 text-slate-200',
-}
+import { getCategoryGradient } from '@/lib/category-gradients'
 
 export default async function LocationsPage() {
   const supabase = await createClient()
@@ -48,18 +43,21 @@ export default async function LocationsPage() {
             <Link
               key={loc.slug}
               href={`/locations/${loc.slug}`}
-              className="group flex flex-col rounded-lg border border-neutral-800 bg-neutral-900 p-6 transition hover:border-neutral-600"
+              className="group overflow-hidden rounded-lg border border-neutral-800 bg-neutral-900 ring-1 ring-transparent transition-all hover:border-neutral-600 hover:ring-white/10"
             >
-              <span
-                className={`self-start rounded-full px-2.5 py-1 text-xs font-medium uppercase tracking-wide ${
-                  categoryStyles[loc.category] ??
-                  'bg-neutral-800 text-neutral-300'
-                }`}
-              >
-                {loc.category}
-              </span>
-              <h2 className="mt-4 text-2xl font-semibold">{loc.name}</h2>
-              <p className="mt-3 text-sm text-neutral-400">{loc.summary}</p>
+              <article>
+                <div
+                  className={`relative h-40 ${getCategoryGradient(loc.category)}`}
+                >
+                  <span className="absolute left-4 top-4 rounded-full bg-black/30 px-2.5 py-1 text-xs font-medium uppercase tracking-wide text-white backdrop-blur-sm">
+                    {loc.category}
+                  </span>
+                </div>
+                <div className="p-6">
+                  <h2 className="text-2xl font-semibold">{loc.name}</h2>
+                  <p className="mt-3 text-sm text-neutral-400">{loc.summary}</p>
+                </div>
+              </article>
             </Link>
           ))}
         </div>
