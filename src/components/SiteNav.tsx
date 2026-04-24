@@ -17,6 +17,9 @@ export default function SiteNav() {
           <Link href="/permits" className="hover:text-white">
             Permits
           </Link>
+          <Link href="/plan-your-production" className="hover:text-white">
+            Plan Your Production
+          </Link>
         </div>
       </div>
     </nav>
